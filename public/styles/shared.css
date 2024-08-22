@@ -1,0 +1,92 @@
+body {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  padding: 1rem 15rem;
+}
+
+#header-logo {
+  display: flex;
+  align-items: center;
+  background-color: black;
+  color: white;
+  font-size: 1.33rem;
+  padding: 1rem 1.33rem;
+}
+
+#header-links {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
+}
+
+#header-links li {
+  padding: 1rem 0.5rem;
+}
+
+#header-links li:hover {
+  padding: 1rem 0.5rem;
+  color: white;
+  background-color: black;
+}
+
+
+#home-post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  gap: 1rem;
+}
+
+main {
+  margin: 0 auto;
+  width: 35rem;
+}
+
+.post-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-style: solid;
+  border-color: black;
+}
+
+.post-item-title {
+  font-size: 1.66rem;
+}
+
+.post-item-summary {
+  font-size: 1rem;
+}
+
+.post-item-author, .post-item-date {
+  place-self: end;
+}
+
+.post-item-button {
+  display: flex;
+}
+.post-item-button-content {
+  padding: 0.66rem 1.33rem;
+  margin: 0 auto;
+  background-color: black;
+  color: white;
+}
+
+
+
