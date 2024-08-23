@@ -88,10 +88,36 @@ main {
   color: white;
 }
 
-.register-form {
+#form-register, #form-login {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
   border-style: solid;
   padding: 1rem 2rem;
   border-style: solid;
   border-color: black;
 }
 
+.form-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.66rem;
+}
+
+.form-control label {
+  font-size: 1.1rem;
+}
+
+.form-control input {
+  font-size: 1.1rem;
+}
+
+#form-register button, #form-login button {
+  background-color: black;
+  color: white;
+  border-style: none;
+  padding: 0.66rem 0;
+  margin-top: 1.33rem;
+  font-size: 1.1rem;
+}
