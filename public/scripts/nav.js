@@ -13,17 +13,23 @@ async function fetchAndSwapMain(route) {
 }
 
 blogLink.addEventListener('click', async function(event) {
-  fetchAndSwapMain('/');
+//   fetchAndSwapMain('/');
+  window.location.href = '/';
   console.log("goto blog!");
 });
 readLink.addEventListener('click', async function(event) {
-  fetchAndSwapMain('/');
+//   fetchAndSwapMain('/');
+  window.location.href = '/';
   console.log("goto read!");
 });
 registerLink.addEventListener('click', async function(event) {
-  await fetchAndSwapMain('/register');
+//   await fetch('/register');
+  window.location.href = '/register';
+//   await fetchAndSwapMain('/register');
 });
 loginLink.addEventListener('click', async function(event) {
-  await fetchAndSwapMain('/login');
+//   await fetchAndSwapMain('/login');
+  window.location.href = '/login';
   console.log("goto login!");
 });
+

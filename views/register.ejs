@@ -5,6 +5,7 @@
     <title>A Blog</title>
     <link rel="stylesheet" href="/styles/shared.css">
     <script src="/scripts/nav.js" defer></script>
+    <script src="/scripts/register.js" defer></script>
   </head>
   <body>
 
@@ -13,7 +14,7 @@
     </header>
 
     <main>
-      <%- include('partials/main-register.ejs') %>
+      <%- include('partials/main-register.ejs', { formData: formData }) %>
     </main>
 
   </body>

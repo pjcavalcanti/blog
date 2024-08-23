@@ -1,18 +1,19 @@
-  <h1>New Account</h1>
+<h1>Create Account</h1>
 
 <div id="form-register">
   <div class="form-control">
     <label>Name</label>
-    <input type="text" name="username"/>
+    <input type="text" name="username" value="<%= formData.name %>" class="reg-name"/>
   </div>
   <div class="form-control">
     <label>Email</label>
-    <input type="email" name="email"/>
+    <input type="email" name="email" value="<%= formData.email %>" class="reg-email"/>
   </div>
   <div class="form-control">
     <label>Password</label>
-    <input type="password" name="password"/>
+    <input type="password" name="password" value="<%= formData.password %>" class="reg-password"/>
   </div>
 
   <button>Submit</button>
 </div>
+
