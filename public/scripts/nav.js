@@ -3,28 +3,27 @@ const readLink = document.querySelector("#read-link");
 const registerLink = document.querySelector("#register-link");
 const loginLink = document.querySelector("#login-link");
 
-blogLink.addEventListener('click', function(event) {
+const domParser = new DOMParser();
+
+async function fetchAndSwapMain(route) {
+  const response = await fetch(route);
+  const responseText = await (await fetch(route)).text();
+  const responseDocument = domParser.parseFromString(responseText, 'text/html');
+  document.querySelector("main").innerHTML = responseDocument.querySelector("main").innerHTML;
+}
+
+blogLink.addEventListener('click', async function(event) {
+  fetchAndSwapMain('/');
   console.log("goto blog!");
 });
-readLink.addEventListener('click', function(event) {
+readLink.addEventListener('click', async function(event) {
+  fetchAndSwapMain('/');
   console.log("goto read!");
 });
 registerLink.addEventListener('click', async function(event) {
-//   const parser = new DOMParser();
-//   const doc = parser.parseFromString(result.text(), 'text/html');
-  //     document.querySelector("html") = result.text();
-//   try {
-//     const result = await fetch('/register');
-//     if (!result.ok) {
-//       throw new Error("Fetch error");
-//     }
-//     const json = await result.json();
-//     console.log(json);
-  fetch('/register').then(response => console.log(response)).catch(error => console.log(error));
-//   } catch (error) {
-//     console.log(error.message);
-//   }
+  await fetchAndSwapMain('/register');
 });
-loginLink.addEventListener('click', function(event) {
+loginLink.addEventListener('click', async function(event) {
+  await fetchAndSwapMain('/login');
   console.log("goto login!");
 });

@@ -88,5 +88,10 @@ main {
   color: white;
 }
 
-
+.register-form {
+  border-style: solid;
+  padding: 1rem 2rem;
+  border-style: solid;
+  border-color: black;
+}
 

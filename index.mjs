@@ -14,4 +14,12 @@ app.get('/register', function(req, res) {
   res.render('register');
 });
 
+app.get('/login', function(req, res) {
+  res.render('login');
+});
+
+app.use(function(req, res, next) {
+  res.status(404).render('404');
+});
+
 app.listen(3000);
