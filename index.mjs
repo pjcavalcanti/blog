@@ -2,6 +2,8 @@ import express from 'express';
 import ejs from 'ejs';
 import session from 'express-session';
 
+import { connect, getDb } from './data/database.mjs';
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -30,13 +32,28 @@ app.get('/register', function(req, res) {
     };
   }
 
-  console.log(req.session.regForm);
   res.render('register', { formData: req.session.regForm });
 });
 
-app.post('/register', function(req, res) {
-  console.log(req.body.toString());
-  res.redirect(303, '/');
+function validateRegForm(formData) {
+  if ((!formData.name || formData.name == '') || (!formData.email || formData.email == '') || (!formData.password || formData.password == '')) {
+    return false;
+  }
+  return true;
+}
+
+app.post('/register', async function(req, res) {
+ 
+  const isValid = validateRegForm(req.body);
+
+  if (isValid) {
+    const result = await getDb().collection('users').insertOne(req.body);
+    console.log(result);
+    res.redirect(303, '/');
+  } else {
+    res.redirect(303, '/register');
+  }
+
 });
 
 app.get('/login', function(req, res) {
