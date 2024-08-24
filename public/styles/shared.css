@@ -88,7 +88,7 @@ main {
   color: white;
 }
 
-#form-register, #form-login {
+#form-register, #form-login, #form-write {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -113,11 +113,19 @@ main {
   font-size: 1.1rem;
 }
 
-#form-register button, #form-login button {
+.form-control textarea {
+  font-size: 1.1rem;
+}
+
+#form-register button, #form-login button, #form-write button {
   background-color: black;
   color: white;
   border-style: none;
   padding: 0.66rem 0;
   margin-top: 1.33rem;
   font-size: 1.1rem;
+}
+
+textarea {
+  resize: vertical;
 }

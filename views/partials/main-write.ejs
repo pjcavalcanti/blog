@@ -1,18 +1,18 @@
 <h1>Write a new post</h1>
 
-<div id="form-register">
+<div id="form-write">
   <div class="form-control">
     <label>Title</label>
-    <input type="text" name="title" value="<%= formData.title %>" class="write-title"/>
+    <textarea name="title" class="write-title"/><%= postData.title %></textarea>
   </div>
   <div class="form-control">
-    <label>Email</label>
-    <textarea name="summary" value="<%= formData.summary %>" class="write-summary"/>
+    <label>Summary</label>
+    <textarea name="summary" class="write-summary"/><%= postData.summary %></textarea>
   </div>
   <div class="form-control">
-    <label>Password</label>
-    <input type="password" name="password" value="<%= formData.password %>" class="reg-password"/>
+    <label>Content</label>
+    <textarea name="body" class="write-body"/><%= postData.body %></textarea>
   </div>
 
-  <button>Submit</button>
+  <button>Post</button>
 </div>

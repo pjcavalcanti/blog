@@ -37,7 +37,12 @@ app.get('/', function(req, res) {
 });
 
 app.get('/write', function(req, res) {
-  res.render('write');
+  const postData = {
+    title: 'some title',
+    summary: 'a summary',
+    body: 'this is the post',
+  }
+  res.render('write', { postData: postData } );
 });
 
 app.get('/register', function(req, res) {
