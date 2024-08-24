@@ -17,3 +17,12 @@ loginButton.addEventListener('click', async function(event){
   window.location.href = response.url;
 
 });
+
+for (field of [email, password]) {
+  field.addEventListener('keydown', function(event) {
+    if (event.key == 'Enter') {
+      event.preventDefault();
+      loginButton.click();
+    }
+  });
+}

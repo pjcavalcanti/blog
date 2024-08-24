@@ -1,8 +1,15 @@
-<div id="header-logo">
+<div id="nav-logo">
   Blog
 </div>
-<ul id="header-links">
-  <li id="read-link">Read</li>
-  <li id="register-link">Register</li>
-  <li id="login-link">Login</li>
+<ul id="nav-links">
+  <li id="nav-read">Read</li>
+  <% if (!locals.isAuth) { %>
+    <li id="nav-register">Register</li>
+      <li id="nav-login">Login</li>
+  <% } %>
+  <% if (locals.isAuth) { %>
+    <li id="nav-write">Write</li>
+    <li id="nav-profile">Profile</li>
+    <li id="nav-logout">Logout</li>
+  <% } %>
 </ul>
