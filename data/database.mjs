@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import MongoStore from 'connect-mongo';
 
 const url = 'mongodb://127.0.0.1:27017';
@@ -7,7 +7,7 @@ const store = MongoStore.create({
   mongoUrl: url + '/blog_session',
 });
 
-async function connect() {
+async function connectDb() {
   try {
     await client.connect();
     store.on('error', function(error) {
@@ -26,4 +26,4 @@ function getStore() {
   return store;
 }
 
-export { connect, getDb, getStore};
+export { connectDb, getDb, getStore, ObjectId };

@@ -3,9 +3,9 @@ import session from 'express-session';
 import ejs from 'ejs';
 import bcrypt from 'bcrypt';
 
-import { connect, getDb, getStore } from './data/database.mjs';
+import { connectDb, getDb, getStore, ObjectId } from './data/database.mjs';
 
-connect();
+connectDb();
 const db = getDb()
 const store = getStore();
 const app = express();
@@ -20,17 +20,16 @@ app.use(session({
   secret: 'pauloblogjs',
   resave: true,
   saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 },
+  cookie: { maxAge: 1000 * 60 * 60 * 7 },
   store: store,
 }));
 // generate isAuth variable
 app.use(function(req, res, next) {
-  if (req.session.isAuth) {
+  if (req.session.isAuth) { // avoiding undefined isAuth
     res.locals.isAuth = true;
   } else {
-    res.locals = false;
+    res.locals.isAuth = false;
   }
-  res.locals.isAuth 
   next();
 });
 
@@ -47,18 +46,49 @@ app.get('/write', function(req, res) {
   res.render('write', { postData: postData } );
 });
 
+function validatePostForm (postData) {
+  if (!postData.title || postData == '' || !postData.summary || postData.summary == '' || !postData.body || postData.summary == '') {
+    return false;
+  }
+  return true;
+}
+
 app.post('/write',async function(req, res) {
-  const user = await db.collection('users').findOne();
+  if (!res.locals.isAuth) {
+    console.log('write: not Auth!');
+    return res.redirect('/login');
+  }
+
+  const user = await db.collection('users').findOne( { _id: new ObjectId(req.session.userId) } );
+  if (!user) {
+    console.log('write: user not found!');
+    return res.redirect('/login');
+  }
+  
+  const isValid = validatePostForm(req.body);
+  if (!isValid) {
+    console.log("write: not valid!")
+    return res.redirect('/write');
+  }
+
+  const authorId = user._id;
+  const authorName = user.name;
+
   const title = req.body.title;
   const summary = req.body.summary;
   const body = req.body.body;
 
-  const isValid = true;
+  console.log(user._id, user.name, user.email);
+  console.log(title, summary, body, new Date());
 
-  if (isValid) {
-    console.log(user._id, user.name, user.email);
-    console.log(title, summary, body);
-  }
+  await db.collection('posts').insertOne({
+    title: title,
+    summary: summary,
+    body: body,
+    authorId: authorId,
+    authorName: authorName,
+    date: new Date()
+  });
   
   res.redirect('/write');
 });
