@@ -1,12 +1,13 @@
 import express from 'express';
-import ejs from 'ejs';
 import session from 'express-session';
+import ejs from 'ejs';
 import bcrypt from 'bcrypt';
 
-import { connect, getDb } from './data/database.mjs';
+import { connect, getDb, getStore } from './data/database.mjs';
 
 connect();
 const db = getDb()
+const store = getStore();
 const app = express();
 
 // templates and static files
@@ -17,9 +18,10 @@ app.use(express.json());
 // keep sessions
 app.use(session({
   secret: 'pauloblogjs',
-  resave: false,
+  resave: true,
   saveUninitialized: false,
   cookie: { maxAge: 1000 * 60 },
+  store: store,
 }));
 // generate isAuth variable
 app.use(function(req, res, next) {
@@ -43,6 +45,22 @@ app.get('/write', function(req, res) {
     body: 'this is the post',
   }
   res.render('write', { postData: postData } );
+});
+
+app.post('/write',async function(req, res) {
+  const user = await db.collection('users').findOne();
+  const title = req.body.title;
+  const summary = req.body.summary;
+  const body = req.body.body;
+
+  const isValid = true;
+
+  if (isValid) {
+    console.log(user._id, user.name, user.email);
+    console.log(title, summary, body);
+  }
+  
+  res.redirect('/write');
 });
 
 app.get('/register', function(req, res) {
@@ -94,6 +112,7 @@ app.post('/login', async function(req, res) {
   if (user) {
     console.log('found');
     req.session.isAuth = await bcrypt.compare(password, user.password);
+    req.session.userId = user._id;
   } else {
     console.log('not found');
   }

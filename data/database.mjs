@@ -1,19 +1,18 @@
 import { MongoClient } from 'mongodb';
+import MongoStore from 'connect-mongo';
 
 const url = 'mongodb://127.0.0.1:27017';
 const client = new MongoClient(url);
-
-// console.log("AA");
-// 
-// client.connect().then(result => {  
-//   console.log(result);
-// }).catch(error => {
-//   console.log(error);
-// }).finally(() => client.close());
+const store = MongoStore.create({
+  mongoUrl: url + '/blog_session',
+});
 
 async function connect() {
   try {
     await client.connect();
+    store.on('error', function(error) {
+      console.log(error);
+    })
   } catch (error) {
     console.log(error);
   }
@@ -23,4 +22,8 @@ function getDb() {
   return client.db('blog');
 }
 
-export { connect, getDb };
+function getStore() {
+  return store;
+}
+
+export { connect, getDb, getStore};
