@@ -4,7 +4,7 @@ import MongoStore from 'connect-mongo';
 const url = 'mongodb://127.0.0.1:27017';
 const client = new MongoClient(url);
 const store = MongoStore.create({
-  mongoUrl: url + '/blog_session',
+  mongoUrl: url + '/blog',
 });
 
 async function connectDb() {

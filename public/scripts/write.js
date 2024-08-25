@@ -9,9 +9,9 @@ postButton.addEventListener('click', async function(event){
   const response = await fetch('/write', {
     method: "POST",
     body: JSON.stringify({
-      title: title.innerHTML,
-      summary: summary.innerHTML,
-      body: body.innerHTML
+      title: title.value,
+      summary: summary.value,
+      body: body.value
     }),
     headers: { "Content-type": "application/json" },
     redirect: 'follow'
@@ -19,14 +19,4 @@ postButton.addEventListener('click', async function(event){
   window.location.href = response.url;
 
 });
-
-for (field of [name, email, password]) {
-  field.addEventListener('keydown', function(event) {
-    if (event.key == 'Enter') {
-      event.preventDefault();
-      console.log('enter pressed');
-      submitButton.click();
-    }
-  });
-}
 
