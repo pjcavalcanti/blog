@@ -5,6 +5,7 @@
     <title>A Blog</title>
     <link rel="stylesheet" href="/styles/shared.css">
     <script src="/scripts/nav.js" defer></script>
+    <script src="/scripts/home.js" defer></script>
   </head>
   <body>
 
@@ -13,7 +14,9 @@
     </header>
 
     <main>
-      <%- include('partials/main-home.ejs') %>
+      <%- include('partials/page-selector.ejs', { pages: [1, 2, 3], pageSelected: currPage, showLast: true, lastPage: totalPages }) %>
+      <%- include('partials/main-home.ejs', { pagePosts: pagePosts, currPage: currPage, totalPages: totalPages}) %>
+      <%- include('partials/page-selector.ejs', { pages: [1, 2, 3], pageSelected: 1, showLast: true, lastPage: 6 }) %>
     </main>
 
   </body>

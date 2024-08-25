@@ -1,5 +1,5 @@
 <ul id="home-post-list">
-  <% for (let i = 0; i < 3; i++) { %>
-  <%- include('post-item.ejs') %>
+  <% for (let i = 0; i < pagePosts.length; i++) { %>
+  <%- include('post-item.ejs', { postIndex: i, pagePosts: pagePosts, currPage: currPage, totalPages: totalPages }) %>
   <% } %>
 </ul>

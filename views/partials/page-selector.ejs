@@ -1,0 +1,13 @@
+<ul class="page-selector">
+  <% for (page of pages) { %>
+    <% if (page == pageSelected) { %>
+      <li class="page-selected"><%= page %></li>
+    <% } else { %>
+      <li><%= page %></li>
+    <% } %>
+  <% } %>
+  <% if (showLast) { %>
+    <li>...</li>
+    <li><%= lastPage %></li>
+  <% } %>
+</ul>

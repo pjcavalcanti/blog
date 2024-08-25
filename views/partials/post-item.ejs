@@ -1,15 +1,19 @@
 <li class="post-item">
   <div class="post-item-title">
-    Some Post
+    <%= pagePosts[postIndex].title %>
   </div>
   <div class="post-item-summary">
-    This post talks about something.
+    <%= pagePosts[postIndex].summary %>
   </div>
   <div class="post-item-author">
-    James Bond
+    <%= pagePosts[postIndex].authorName %>
   </div>
   <div class="post-item-date">
-    1 Jan 1999
+    <%= pagePosts[postIndex].date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      }) %>
   </div>
   <div class="post-item-button">
     <div class="post-item-button-content">

@@ -33,8 +33,25 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/', function(req, res) {
-  res.render('home');
+app.get('/', async function(req, res) {
+
+  console.log('\n\n', req.query.page);
+
+  const query = {};
+  const currPage = req.query.page;
+  const postsPerPage = 2;
+  
+  const totalPosts = await db.collection('posts').countDocuments(query);
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+
+  const currPageStartIndex = Math.max(0, Math.min(totalPosts - 1, (currPage - 1) * postsPerPage));
+  console.log(currPageStartIndex);
+  const pagePosts = await db.collection('posts').find(query).skip(currPageStartIndex).limit(postsPerPage).toArray();
+
+  console.log(pagePosts);
+  console.log(totalPosts);
+
+  res.render('home', { pagePosts: pagePosts, currPage: currPage, totalPages: totalPages});
 });
 
 app.get('/write', function(req, res) {
