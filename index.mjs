@@ -20,7 +20,7 @@ app.use(session({
   secret: 'pauloblogjs',
   resave: true,
   saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 * 7 },
+  cookie: { maxAge: 1000 * 3600 * 24 },
   store: store,
 }));
 // generate isAuth variable
@@ -34,24 +34,64 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', async function(req, res) {
-
-  console.log('\n\n', req.query.page);
-
-  const query = {};
-  const currPage = req.query.page;
-  const postsPerPage = 2;
+  let currPage = Number(req.query.page);
+  if (!currPage) {
+    currPage = 1;
+  }
   
+  const query = {};
+  const postsPerPage = 2;
   const totalPosts = await db.collection('posts').countDocuments(query);
   const totalPages = Math.ceil(totalPosts / postsPerPage);
 
   const currPageStartIndex = Math.max(0, Math.min(totalPosts - 1, (currPage - 1) * postsPerPage));
-  console.log(currPageStartIndex);
   const pagePosts = await db.collection('posts').find(query).skip(currPageStartIndex).limit(postsPerPage).toArray();
 
-  console.log(pagePosts);
-  console.log(totalPosts);
+  let pages = [1];
+  if (currPage > 1) {
+    if (currPage > 3) {
+      // [1, x, y, currPage...]
+      pages = pages.concat(['...', currPage - 1, currPage]);
+    } else if (currPage > 2) {
+      // [1, x, currPage...]
+      pages = pages.concat([currPage - 1, currPage]);
+    } else {
+      // [1, currPage...]
+      pages = pages.concat([currPage]);
+    }
+  }
+  if (currPage < totalPages) {
+    if (currPage < totalPages - 2) {
+      // [..., currPage, totalPages -2, totalPages-1, totalPages]
+      pages = pages.concat([currPage + 1,'...', totalPages]);
+      // [..., currPage, totalPages - 1, totalPages]
+    } else if (currPage < totalPages - 1) {
+      pages = pages.concat([currPage + 1, totalPages]);
+    } else {
+      // [..., currPage, totalPages]
+      pages = pages.concat([totalPages]);
+    }
+  }
 
-  res.render('home', { pagePosts: pagePosts, currPage: currPage, totalPages: totalPages});
+  res.render('home', { pages: pages, currPage: currPage , pagePosts: pagePosts });
+});
+
+app.get('/profile', function(req, res) {
+  res.render('profile', {});
+});
+
+app.get('/read', async function(req, res) {
+  const postId = req.query.postId;
+  console.log(postId);
+  if (postId) {
+    const postData = await db.collection('posts').findOne({_id: new ObjectId(postId)}, { projection: {_id: 0, authorId: 0} });
+    console.log(postData);
+    res.render('read', { postData: postData });
+//     res.redirect('/');
+  } else {
+    console.log("post not found");
+    return res.status(404).render('404');
+  }
 });
 
 app.get('/write', function(req, res) {
@@ -95,9 +135,6 @@ app.post('/write',async function(req, res) {
   const summary = req.body.summary;
   const body = req.body.body;
 
-  console.log(user._id, user.name, user.email);
-  console.log(title, summary, body, new Date());
-
   await db.collection('posts').insertOne({
     title: title,
     summary: summary,
@@ -109,6 +146,7 @@ app.post('/write',async function(req, res) {
   
   res.redirect('/write');
 });
+
 
 app.get('/register', function(req, res) {
   console.log(req.session.id);

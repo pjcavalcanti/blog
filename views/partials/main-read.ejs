@@ -1,0 +1,22 @@
+<li class="post-read" %>">
+  <div class="post-read-title">
+    <%= postData.title %>
+  </div>
+  <div class="post-read-summary">
+    <%= postData.summary %>
+  </div>
+  <hr>
+  <div class="post-read-body">
+    <%= postData.body %>
+  </div>
+  <div class="post-read-author">
+    <%= postData.authorName %>
+  </div>
+  <div class="post-read-date">
+    <%= postData.date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      }) %>
+  </div>
+</li>

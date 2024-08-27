@@ -54,3 +54,8 @@ if (logoutLink) {
   });
 }
 
+if (profileLink) {
+  profileLink.addEventListener('click', function(event) {
+    window.location.href = '/profile';
+  });
+}

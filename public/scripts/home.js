@@ -1,4 +1,5 @@
 const pages = document.querySelectorAll('.page-selector li');
+const posts = document.querySelectorAll('.post-item');
 
 console.log(pages);
 for (page of pages) {
@@ -7,13 +8,25 @@ for (page of pages) {
     continue;
   }
 
-  page.addEventListener('click', function(event) {
-    const params = new URLSearchParams({
-      page: event.target.innerHTML,
-    });
+  const params = new URLSearchParams({
+    page: page.innerHTML,
+  });
+  const url = `/?${params.toString()}`
 
-    const url = `/?${params.toString()}`
+  page.addEventListener('click', function(event) {
     window.location.href = url;
   });
-  console.log(page.innerHTML, !isNaN(page.innerHTML));
+}
+
+for (post of posts) {
+  const params = new URLSearchParams({
+    postId: post.getAttribute('data-id')
+  });
+
+  const url = `/read?${params.toString()}`;
+  const button = post.querySelector('.post-item-button');
+
+  button.addEventListener('click', function(event) {
+    window.location.href = url;
+  });
 }

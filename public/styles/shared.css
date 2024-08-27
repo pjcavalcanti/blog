@@ -82,7 +82,7 @@ main {
   pointer-events: none;
 }
 
-.post-item {
+.post-item, .post-read, .profile-data {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -91,27 +91,50 @@ main {
   border-color: black;
 }
 
-.post-item-title {
+.post-item-title, .post-read-title {
   font-size: 1.66rem;
 }
 
-.post-item-summary {
+.post-item-summary, .post-read-summary, .profile-data-username, .profile-data-email {
   font-size: 1rem;
 }
 
-.post-item-author, .post-item-date {
+
+.post-item-author, .post-item-date, .post-read-author, .post-read-date {
   place-self: end;
 }
 
 .post-item-button {
   display: flex;
 }
+
 .post-item-button-content {
   padding: 0.66rem 1.33rem;
   margin: 0 auto;
   background-color: black;
   color: white;
 }
+
+.profile-data-username .change, .profile-data-email .change {
+  padding: 0.66rem 1.33rem;
+  margin: 0 auto;
+
+  background-color: gray;
+  color: white;
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+.post-read hr {
+  width: 100%;
+}
+
+.profile-data-username, .profile-data-email {
+  display: flex;
+  justify-items: space-between;
+  align-items: center;
+}
+
 
 #form-register, #form-login, #form-write {
   display: flex;
