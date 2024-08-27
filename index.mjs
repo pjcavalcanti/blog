@@ -77,9 +77,7 @@ app.get('/', async function(req, res) {
 });
 
 app.get('/profile', async function(req, res) {
-  console.log(req.session);
   const user = await db.collection('users').findOne( { _id: new ObjectId(req.session.userId)}, { projection: { password: 0 }});
-  console.log(user);
   res.render('profile', { user: user });
 });
 
@@ -216,8 +214,108 @@ app.get('/change-username', function(req, res) {
   res.render('change-username');
 });
 
+app.post('/change-username', async function(req, res) {
+  const newUsername = req.body.newUsername;
+  const password = req.body.password;
+  const userId = req.session.userId;
+
+  const user = await db.collection('users').findOne( {_id: new ObjectId(userId) } );
+  const passwordIsCorrect = await bcrypt.compare(password, user.password)
+
+  console.log(password, userId, passwordIsCorrect, user.password);
+
+  if (passwordIsCorrect) {
+    const dbStatus = await db.collection('users').updateOne( { _id: new ObjectId(userId) } , {$set: { name: newUsername }} );
+    console.log(dbStatus);
+    return res.redirect('/profile');
+  } 
+});
+
 app.get('/change-email', function(req, res) {
   res.render('change-email');
+});
+
+app.post('/change-email', async function(req, res) {
+  const newEmail = req.body.newEmail;
+  const password = req.body.password;
+  const userId = req.session.userId;
+
+  const user = await db.collection('users').findOne( {_id: new ObjectId(userId) } );
+  const passwordIsCorrect = await bcrypt.compare(password, user.password)
+
+  console.log(password, userId, passwordIsCorrect, user.password);
+
+  if (passwordIsCorrect) {
+    const dbStatus = await db.collection('users').updateOne( { _id: new ObjectId(userId) } , {$set: { email: newEmail }} );
+    console.log(dbStatus);
+    return res.redirect('/profile');
+  } 
+});
+
+app.get('/change-password', function(req, res) {
+  res.render('change-password');
+});
+
+app.post('/change-password', async function(req, res) {
+  const newPassword = req.body.newPassword;
+  const password = req.body.password;
+  const userId = req.session.userId;
+
+  const user = await db.collection('users').findOne( {_id: new ObjectId(userId) } );
+  const passwordIsCorrect = await bcrypt.compare(password, user.password)
+
+  console.log(password, userId, passwordIsCorrect, user.password);
+
+  if (passwordIsCorrect) {
+    const dbStatus = await db.collection('users').updateOne( { _id: new ObjectId(userId) } , {$set: { password: await bcrypt.hash(newPassword, 10)}} );
+    console.log(dbStatus);
+    return res.redirect('/profile');
+  } 
+});
+
+app.get('/my-posts', async function(req, res) {
+  let currPage = Number(req.query.page);
+  if (!currPage) {
+    currPage = 1;
+  }
+
+  console.log(req.session.userId);
+  
+  const query = { authorId: new ObjectId(req.session.userId) };
+  const postsPerPage = 2;
+  const totalPosts = await db.collection('posts').countDocuments(query);
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+
+  const currPageStartIndex = Math.max(0, Math.min(totalPosts - 1, (currPage - 1) * postsPerPage));
+  const pagePosts = await db.collection('posts').find(query).skip(currPageStartIndex).limit(postsPerPage).toArray();
+
+  let pages = [1];
+  if (currPage > 1) {
+    if (currPage > 3) {
+      // [1, x, y, currPage...]
+      pages = pages.concat(['...', currPage - 1, currPage]);
+    } else if (currPage > 2) {
+      // [1, x, currPage...]
+      pages = pages.concat([currPage - 1, currPage]);
+    } else {
+      // [1, currPage...]
+      pages = pages.concat([currPage]);
+    }
+  }
+  if (currPage < totalPages) {
+    if (currPage < totalPages - 2) {
+      // [..., currPage, totalPages -2, totalPages-1, totalPages]
+      pages = pages.concat([currPage + 1,'...', totalPages]);
+      // [..., currPage, totalPages - 1, totalPages]
+    } else if (currPage < totalPages - 1) {
+      pages = pages.concat([currPage + 1, totalPages]);
+    } else {
+      // [..., currPage, totalPages]
+      pages = pages.concat([totalPages]);
+    }
+  }
+
+  res.render('my-posts', { pages: pages, currPage: currPage , pagePosts: pagePosts });
 });
 
 app.use(function(req, res, next) {

@@ -1,14 +1,14 @@
-const email = document.querySelector("#form-login .log-email");
-const password = document.querySelector("#form-login .log-password");
-const loginButton = document.querySelector("#form-login button");
+const newUsername = document.querySelector(".change-username");
+const password = document.querySelector(".change-password");
+const submitButton = document.querySelector('#form-change button');
 
-loginButton.addEventListener('click', async function(event){
+submitButton.addEventListener('click', async function(event){
   event.preventDefault();
 
-  const response = await fetch('/login', {
+  const response = await fetch('/change-username', {
     method: "POST",
     body: JSON.stringify({
-      email: email.value,
+      newUsername: newUsername.value,
       password: password.value
     }),
     headers: { "Content-type": "application/json" },
@@ -18,11 +18,11 @@ loginButton.addEventListener('click', async function(event){
 
 });
 
-for (field of [email, password]) {
+for (field of [newUsername, password]) {
   field.addEventListener('keydown', function(event) {
     if (event.key == 'Enter') {
       event.preventDefault();
-      loginButton.click();
+      submitButton.click();
     }
   });
 }

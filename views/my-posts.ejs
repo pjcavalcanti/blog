@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>A Blog</title>
+    <link rel="stylesheet" href="/styles/shared.css">
+    <script src="/scripts/nav.js" defer></script>
+    <script src="/scripts/home.js" defer></script>
+  </head>
+  <body>
+
+    <header>
+      <%- include('partials/nav.ejs') %>
+    </header>
+
+    <main>
+      <h1>My Posts</h1>
+      <%- include('partials/main-my-posts.ejs', { pagePosts: pagePosts }) %>
+      <%- include('partials/page-selector.ejs', { pages: pages, pageSelected: currPage }) %>
+    </main>
+
+  </body>
+</html>
