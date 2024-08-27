@@ -117,12 +117,15 @@ main {
 
 .profile-data-username .change, .profile-data-email .change {
   padding: 0.66rem 1.33rem;
-  margin: 0 auto;
+  margin: 0;
+  width: 9rem;
+
+  text-align: center;
 
   background-color: gray;
   color: white;
   margin-left: auto;
-  margin-right: 1rem;
+  margin-right: 0rem;
 }
 
 .post-read hr {
@@ -136,7 +139,7 @@ main {
 }
 
 
-#form-register, #form-login, #form-write {
+#form-register, #form-login, #form-write, #form-change {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -165,13 +168,17 @@ main {
   font-size: 1.1rem;
 }
 
-#form-register button, #form-login button, #form-write button {
+#form-register button, #form-login button, #form-write button, #form-change button, #profile button  {
   background-color: black;
   color: white;
   border-style: none;
   padding: 0.66rem 0;
   margin-top: 1.33rem;
   font-size: 1.1rem;
+}
+
+#profile .password {
+  background-color: gray;
 }
 
 textarea {

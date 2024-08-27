@@ -1,7 +1,9 @@
-<li class="profile-data" %>">
+<h1>Your Profile</h1>
+
+<li class="profile-data" id="profile" %>">
   <div class="profile-data-username">
     <div>
-      <b>Username</b>: THE_USER
+      <b>Username</b>: <%= user.name %>
     </div>
     <div class="change">
       Change username
@@ -9,15 +11,13 @@
   </div>
   <div class="profile-data-email">
     <div>
-      <b>Email</b>: email@test.com
+      <b>Email</b>: <%= user.email %>
     </div>
     <div class="change">
       Change email
     </div>
   </div>
-  <div class="post-item-button">
-    <div class="post-item-button-content">
-      See my posts
-    </div>
-  </div>
+
+  <button class="password">Change password</button>
+  <button class="my-posts">See my posts</button>
 </li>

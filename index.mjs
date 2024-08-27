@@ -76,8 +76,11 @@ app.get('/', async function(req, res) {
   res.render('home', { pages: pages, currPage: currPage , pagePosts: pagePosts });
 });
 
-app.get('/profile', function(req, res) {
-  res.render('profile', {});
+app.get('/profile', async function(req, res) {
+  console.log(req.session);
+  const user = await db.collection('users').findOne( { _id: new ObjectId(req.session.userId)}, { projection: { password: 0 }});
+  console.log(user);
+  res.render('profile', { user: user });
 });
 
 app.get('/read', async function(req, res) {
@@ -209,8 +212,17 @@ app.get('/logout', async function(req, res) {
   res.redirect(303, '/');
 })
 
+app.get('/change-username', function(req, res) {
+  res.render('change-username');
+});
+
+app.get('/change-email', function(req, res) {
+  res.render('change-email');
+});
+
 app.use(function(req, res, next) {
   res.status(404).render('404');
 });
+
 
 app.listen(3000);
